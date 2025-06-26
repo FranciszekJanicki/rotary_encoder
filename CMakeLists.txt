@@ -4,10 +4,8 @@ target_sources(rotary_encoder PRIVATE
     "rotary_encoder.c"
 )
 
-target_include_directories(rotary_encoder PRIVATE 
-)
-
-target_link_libraries(rotary_encoder PRIVATE
+target_include_directories(rotary_encoder PUBLIC
+    ${CMAKE_CURRENT_SOURCE_DIR}
 )
 
 target_compile_options(rotary_encoder PUBLIC
