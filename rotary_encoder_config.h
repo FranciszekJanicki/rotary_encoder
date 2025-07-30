@@ -3,6 +3,10 @@
 
 #include <stdint.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef float float32_t;
 
 typedef enum {
@@ -29,5 +33,9 @@ typedef struct {
     rotary_encoder_err_t (*device_deinitialize)(void*);
     rotary_encoder_err_t (*device_get_step_count)(void*, int64_t*);
 } rotary_encoder_interface_t;
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // ROTARY_ENCODER_ROTARY_ENCODER_CONFIG_H

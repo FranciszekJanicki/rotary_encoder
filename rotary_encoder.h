@@ -3,6 +3,10 @@
 
 #include "rotary_encoder_config.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct {
     rotary_encoder_state_t state;
     rotary_encoder_config_t config;
@@ -25,5 +29,9 @@ rotary_encoder_err_t rotary_encoder_get_speed(rotary_encoder_t* encoder,
 rotary_encoder_err_t rotary_encoder_get_acceleration(rotary_encoder_t* encoder,
                                                      float32_t* acceleration,
                                                      float32_t delta_time);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif // ROTARY_ENCODER_ROTARY_ENCODER_H
