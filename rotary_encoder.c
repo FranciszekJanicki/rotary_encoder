@@ -37,17 +37,14 @@ static inline float32_t rotary_encoder_wrap_position(
     float32_t position)
 {
     float32_t position_range =
-        fabsf(encoder->config.max_position - encoder->config.min_position);
+        encoder->config.max_position - encoder->config.min_position;
 
-    position = fmodf(position, position_range);
-    while (position < encoder->config.min_position) {
+    position = fmodf(position - encoder->config.min_position, position_range);
+    if (position < 0.0F) {
         position += position_range;
     }
-    if (position >= encoder->config.max_position) {
-        position -= position_range;
-    }
 
-    return position;
+    return position + encoder->config.min_position;
 }
 
 static inline int64_t rotary_encoder_position_to_step_count(
@@ -58,8 +55,11 @@ static inline int64_t rotary_encoder_position_to_step_count(
         return 0L;
     }
 
-    float32_t step_count =
-        rotary_encoder_wrap_position(encoder,position) / encoder->config.step_change;
+    if (encoder->config.should_wrap_position) {
+        position = rotary_encoder_wrap_position(encoder, position);
+    }
+
+    float32_t step_count = position / encoder->config.step_change;
 
     return (int64_t)roundf(step_count);
 }
@@ -74,7 +74,11 @@ static inline float32_t rotary_encoder_step_count_to_position(
 
     float32_t position = (float32_t)step_count * encoder->config.step_change;
 
-    return rotary_encoder_wrap_position(encoder,position);
+    if (encoder->config.should_wrap_position) {
+        position = rotary_encoder_wrap_position(encoder, position);
+    }
+
+    return position;
 }
 
 rotary_encoder_err_t rotary_encoder_initialize(
@@ -153,7 +157,7 @@ rotary_encoder_err_t rotary_encoder_get_speed(rotary_encoder_t* encoder,
 
     float32_t position;
     rotary_encoder_err_t err = rotary_encoder_get_position(encoder, &position);
-    if (err != ROTARY_ENCODER_ERR_NULL) {
+    if (err != ROTARY_ENCODER_ERR_OK) {
         return err;
     }
 

@@ -25,6 +25,7 @@ typedef struct {
     float32_t step_change;
     float32_t min_position;
     float32_t max_position;
+    bool should_wrap_position;
 } rotary_encoder_config_t;
 
 typedef struct {
