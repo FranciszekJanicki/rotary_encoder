@@ -11,8 +11,8 @@ typedef float float32_t;
 
 typedef enum {
     ROTARY_ENCODER_ERR_OK = 0,
-    ROTARY_ENCODER_ERR_FAIL = 1 << 0,
-    ROTARY_ENCODER_ERR_NULL = 1 << 1,
+    ROTARY_ENCODER_ERR_FAIL,
+    ROTARY_ENCODER_ERR_NULL,
 } rotary_encoder_err_t;
 
 typedef struct {
